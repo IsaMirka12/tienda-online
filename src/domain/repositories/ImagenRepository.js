@@ -1,20 +1,20 @@
-class ProductoRepository {
-    async obtenerProductoPorId(id) {
+class ImagenRepository {
+    async obtenerImagenPorId(id) {
       throw new Error('Method not implemented');
     }
-    async obtenerTodosLosProductos() {
+    async obtenerTodasLasImagenes() {
         throw new Error('Method not implemented');
     }
-    async insertarProducto(){
+    async insertarImagen(){
       throw new Error('Method not implemented');
     }
-    async eliminarProductoPorId(id) {
+    async eliminarImagenPorId(id) {
       throw new Error('Method not implemented');
     }
-    async editarProducto(id , datosProducto) {
+    async editarImagen(id , datosImagen) {
       throw new Error('Method not implemented');
     }
 
   }
   
-  module.exports = ProductoRepository;
+  module.exports = ImagenRepository;
