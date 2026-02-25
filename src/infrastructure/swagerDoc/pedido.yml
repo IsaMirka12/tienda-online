@@ -1,0 +1,158 @@
+tags:
+  - name: Pedido
+    description: API de pedidos
+
+components:
+  schemas:
+
+    DetallePedido:
+      type: object
+      properties:
+        productoId:
+          type: integer
+          example: 3
+        cantidad:
+          type: integer
+          example: 2
+        precioUnitario:
+          type: number
+          example: 15.5
+
+    Pedido:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        clienteId:
+          type: integer
+          example: 5
+        fecha:
+          type: string
+          example: 2025-01-01
+        total:
+          type: number
+          example: 45.50
+        metodoPago:
+          type: string
+          example: YAPE
+        estado:
+          type: string
+          example: PAGADO
+        numeroPedido:
+          type: string
+          example: PED-001
+
+    PedidoCrear:
+      type: object
+      required:
+        - clienteId
+        - total
+        - detalles
+      properties:
+        clienteId:
+          type: integer
+          example: 5
+        fecha:
+          type: string
+          example: 2025-01-01
+        total:
+          type: number
+          example: 45.50
+        metodoPago:
+          type: string
+          example: YAPE
+        estado:
+          type: string
+          example: PAGADO
+        numeroPedido:
+          type: string
+          example: PED-001
+        detalles:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetallePedido'
+
+paths:
+
+  /pedido/todos:
+    get:
+      tags: [Pedido]
+      summary: Obtener todos los pedidos
+      responses:
+        200:
+          description: Lista de pedidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pedido'
+
+  /pedido/obtener/{id}:
+    get:
+      tags: [Pedido]
+      summary: Obtener pedido por ID con detalles
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Pedido encontrado
+
+  /pedido/agregar:
+    post:
+      tags: [Pedido]
+      summary: Crear pedido con detalles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PedidoCrear'
+      responses:
+        200:
+          description: Pedido creado
+
+  /pedido/editar/{id}:
+    put:
+      tags: [Pedido]
+      summary: Editar total o estado del pedido
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                total:
+                  type: number
+                  example: 50
+                estado:
+                  type: string
+                  example: ENTREGADO
+      responses:
+        200:
+          description: Pedido actualizado
+
+  /pedido/eliminar/{id}:
+    delete:
+      tags: [Pedido]
+      summary: Eliminar pedido
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Pedido eliminado

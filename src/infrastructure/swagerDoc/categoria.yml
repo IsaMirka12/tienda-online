@@ -1,0 +1,106 @@
+tags:
+  - name: Categoria
+    description: API de categorías
+
+components:
+  schemas:
+
+    Categoria:
+      type: object
+      properties:
+        idCategoria:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Dopab
+
+    CategoriaCrear:
+      type: object
+      required:
+        - nombre
+      properties:
+        nombre:
+          type: string
+          example: Nueva categoria
+
+paths:
+
+  /categoria/todos:
+    get:
+      tags: [Categoria]
+      summary: Obtener todas las categorías
+      responses:
+        200:
+          description: Lista de categorías
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Categoria'
+
+  /categoria/obtener/{id}:
+    get:
+      tags: [Categoria]
+      summary: Obtener categoría por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Categoría encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categoria'
+
+  /categoria/agregar:
+    post:
+      tags: [Categoria]
+      summary: Crear categoría
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoriaCrear'
+      responses:
+        200:
+          description: Categoría creada
+
+  /categoria/editar/{id}:
+    put:
+      tags: [Categoria]
+      summary: Editar categoría
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoriaCrear'
+      responses:
+        200:
+          description: Categoría actualizada
+
+  /categoria/eliminar/{id}:
+    delete:
+      tags: [Categoria]
+      summary: Eliminar categoría
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Categoría eliminada

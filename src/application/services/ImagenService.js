@@ -18,15 +18,13 @@ class ImagenService {
       if (error) {
           throw new Error(`Error de validación: ${error.details.map(err => err.message).join(", ")}`);
       }
-      // Crear la instancia de Producto
       const imagen = new Imagen(
-          null, // El ID lo generará la base de datos
+          null, 
           imagenData.productoId,
           imagenData.url,
           imagenData.esPrincipal,
           imagenData.estado
       );
-      // Delegar al repositorio para guardar el producto
       return await this.imagenRepository.insertarImagen(imagen);
   }
   async eliminarImagenPorId(id) {

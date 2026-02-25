@@ -1,0 +1,158 @@
+tags:
+  - name: Producto
+    description: Endpoints de productos
+
+components:
+  schemas:
+
+    Producto:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 500
+        nombre:
+          type: string
+          example: Bulgogui Dopab
+        descripcion:
+          type: string
+          example: Carne salteada con salsa de sillao, arroz blanco, lechuga, alga y huevo frito
+        precio:
+          type: number
+          example: 20.00
+        imagen:
+          type: string
+          example: https://i.postimg.cc/Nfm23Yhp/Bulgogui-Dopab.jpg
+        categoria_id:
+          type: integer
+          example: 1
+        estado:
+          type: boolean
+          example: true
+
+    ProductoInput:
+      type: object
+      required:
+        - nombre
+        - precio
+        - categoria_id
+      properties:
+        nombre:
+          type: string
+          example: Bulgogui Dopab
+        descripcion:
+          type: string
+          example: Carne salteada con salsa de sillao, arroz blanco, lechuga, alga y huevo frito
+        precio:
+          type: number
+          example: 20.00
+        imagen:
+          type: string
+          example: https://i.postimg.cc/Nfm23Yhp/Bulgogui-Dopab.jpg
+        categoria_id:
+          type: integer
+          example: 1
+        estado:
+          type: boolean
+          example: true
+
+
+paths:
+
+  /producto/todos:
+    get:
+      summary: Obtener todos los productos
+      tags: [Producto]
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              example:
+                - id: 500
+                  nombre: Bulgogui Dopab
+                  descripcion: Carne salteada con salsa de sillao, arroz blanco, lechuga, alga y huevo frito
+                  precio: 20.00
+                  imagen: https://i.postimg.cc/Nfm23Yhp/Bulgogui-Dopab.jpg
+                  categoria_id: 1
+                  estado: true
+
+  /producto/obtener/{id}:
+    get:
+      summary: Obtener producto por ID
+      tags: [Producto]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        404:
+          description: Producto no encontrado
+
+  /producto/agregar:
+    post:
+      summary: Crear producto
+      tags: [Producto]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductoInput'
+      responses:
+        201:
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+
+  /producto/editar/{id}:
+    put:
+      summary: Editar producto
+      tags: [Producto]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductoInput'
+      responses:
+        200:
+          description: Producto actualizado
+
+  /producto/eliminar/{id}:
+    delete:
+      summary: Eliminar producto
+      tags: [Producto]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Producto eliminado

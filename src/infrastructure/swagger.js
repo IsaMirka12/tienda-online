@@ -1,4 +1,3 @@
-
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const path = require("path");
@@ -13,11 +12,23 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:26973", 
+        url: "http://localhost:26973",
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT"
+        }
+      }
+    },
+    security: [{ bearerAuth: [] }]
   },
-    apis: [path.join(__dirname, "api/routes/*.js")],
+
+  // ⭐ ESTA ERA LA FALLA
+       apis: [path.join(__dirname, "swagerDoc/*.yml")],
 };
 
 const specs = swaggerJsdoc(options);

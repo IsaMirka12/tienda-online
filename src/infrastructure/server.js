@@ -31,3 +31,16 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+/*
+ esty segura que es la ruta porque 
+ esta asi la estructura
+ infraestructura
+    -api
+    -database
+    -swagerDoc
+      -producto.yaml
+    server.js
+    swagger.js
+    
+*/

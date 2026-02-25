@@ -1,0 +1,160 @@
+tags:
+  - name: Usuario
+    description: API de usuarios
+
+components:
+  schemas:
+
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nombres:
+          type: string
+          example: Maria
+        apellidos:
+          type: string
+          example: Perez
+        correo:
+          type: string
+          example: maria@gmail.com
+        rol:
+          type: string
+          example: ADMIN
+        estado:
+          type: integer
+          example: 1
+        fecha_registro:
+          type: string
+          example: 2025-01-01
+
+    UsuarioCrear:
+      type: object
+      required:
+        - nombres
+        - apellidos
+        - correo
+        - contrasenia
+      properties:
+        nombres:
+          type: string
+          example: Maria
+        apellidos:
+          type: string
+          example: Perez
+        correo:
+          type: string
+          example: maria@gmail.com
+        contrasenia:
+          type: string
+          example: 123456
+        rol:
+          type: string
+          example: CLIENTE
+
+    UsuarioLogin:
+      type: object
+      properties:
+        correo:
+          type: string
+          example: maria@gmail.com
+        password:
+          type: string
+          example: 123456
+
+paths:
+
+  /usuario/todos:
+    get:
+      tags: [Usuario]
+      summary: Obtener todos los usuarios
+      responses:
+        200:
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+
+  /usuario/obtener/{id}:
+    get:
+      tags: [Usuario]
+      summary: Obtener usuario por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+
+  /usuario/agregar:
+    post:
+      tags: [Usuario]
+      summary: Crear usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioCrear'
+      responses:
+        200:
+          description: Usuario creado
+
+  /usuario/editar/{id}:
+    put:
+      tags: [Usuario]
+      summary: Editar usuario
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioCrear'
+      responses:
+        200:
+          description: Usuario actualizado
+
+  /usuario/eliminar/{id}:
+    delete:
+      tags: [Usuario]
+      summary: Eliminar usuario
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Usuario eliminado
+
+  /usuario/login:
+    post:
+      tags: [Usuario]
+      summary: Login de usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioLogin'
+      responses:
+        200:
+          description: Login correcto
